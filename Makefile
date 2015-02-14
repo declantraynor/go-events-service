@@ -6,3 +6,6 @@ build:
 
 run: build
 	docker run -it --rm --name $(APP_CONTAINER) $(APP_IMAGE)
+
+test:
+	go test -cover ./...
