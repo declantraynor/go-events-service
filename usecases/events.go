@@ -34,7 +34,7 @@ func ParseTimestamp(timestamp string) (time.Time, error) {
 }
 
 type EventInteractor struct {
-	repo domain.EventRepo
+	Repo domain.EventRepo
 }
 
 func (interactor *EventInteractor) Add(name string, timestamp string) (domain.Event, error) {
@@ -42,5 +42,5 @@ func (interactor *EventInteractor) Add(name string, timestamp string) (domain.Ev
 		return domain.Event{}, err
 	}
 	event := domain.Event{Name: SanitizeName(name), Timestamp: timestamp}
-	return interactor.repo.Store(event)
+	return interactor.Repo.Store(event)
 }
