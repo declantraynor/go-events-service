@@ -2,8 +2,8 @@
 // the events service.
 package domain
 
-type EventRepo interface {
-	Store(event Event) (Event, error)
+type EventStore interface {
+	Put(event Event) error
 }
 
 type Event struct {
