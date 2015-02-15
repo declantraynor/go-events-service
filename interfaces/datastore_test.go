@@ -97,3 +97,16 @@ func TestPutEvent(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestPutEventError(t *testing.T) {
+	server := startRedis("12313")
+	store, _ := NewRedisEventStore("127.0.0.1", "12313")
+	event := domain.Event{Name: "test", Timestamp: "2015-02-11T15:01:00+00:00"}
+
+	// simulate redis connection loss
+	stopRedis(server)
+
+	if err := store.Put(event); err == nil {
+		t.Errorf("expected error from RedisEventStore")
+	}
+}
