@@ -5,7 +5,7 @@ build:
 	docker build -t $(APP_IMAGE) . 
 
 run: build
-	docker run -it --rm --name $(APP_CONTAINER) $(APP_IMAGE)
+	docker run -itP --rm --name $(APP_CONTAINER) $(APP_IMAGE)
 
 test:
 	go test -cover ./...
