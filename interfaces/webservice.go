@@ -28,7 +28,7 @@ func (handler *WebServiceHandler) Create(response http.ResponseWriter, request *
 		http.Error(response, err.Error(), http.StatusBadRequest)
 	}
 
-	if _, err := handler.eventInteractor.Add(event.Name, event.Timestamp); err != nil {
+	if err := handler.eventInteractor.Add(event.Name, event.Timestamp); err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
 	}
 
