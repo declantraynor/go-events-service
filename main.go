@@ -1,24 +1,30 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"net/http"
+	"os"
 
-	"github.com/declantraynor/go-events-service/domain"
+	"github.com/garyburd/redigo/redis"
+
 	"github.com/declantraynor/go-events-service/interfaces"
 	"github.com/declantraynor/go-events-service/usecases"
 )
 
-type StubEventRepo struct{}
-
-func (stub *StubEventRepo) Store(event domain.Event) (domain.Event, error) {
-	return domain.Event{}, nil
-}
-
 func main() {
-	eventInteractor := new(usecases.EventInteractor)
-	eventInteractor.Repo = new(StubEventRepo)
-	webservice := interfaces.WebService{}
-	webservice.EventInteractor = eventInteractor
+
+	redisAddr := os.Getenv("REDIS_PORT_6379_TCP_ADDR")
+	redisPort := os.Getenv("REDIS_PORT_6379_TCP_PORT")
+
+	redisConn, err := redis.Dial("tcp", fmt.Sprintf("%s:%s", redisAddr, redisPort))
+	if err != nil {
+		log.Fatal("Unable to connect to redis")
+	}
+
+	eventRepo := interfaces.RedisEventRepo{Conn: &redisConn}
+	eventInteractor := usecases.EventInteractor{Repo: &eventRepo}
+	webservice := interfaces.WebService{EventInteractor: &eventInteractor}
 
 	http.HandleFunc("/events", func(res http.ResponseWriter, req *http.Request) {
 		webservice.Create(res, req)
