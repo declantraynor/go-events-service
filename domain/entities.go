@@ -8,5 +8,5 @@ type EventStore interface {
 
 type Event struct {
 	Name      string
-	Timestamp string
+	Timestamp int64
 }

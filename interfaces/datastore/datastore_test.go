@@ -29,7 +29,7 @@ func TestPutSucceeds(t *testing.T) {
 	defer conn.Close()
 
 	store := RedisEventStore{conn: conn, idgen: &PassingIdGenerator{}}
-	event := domain.Event{Name: "test", Timestamp: "2015-02-11T15:01:00+00:00"}
+	event := domain.Event{Name: "test", Timestamp: 1423666860}
 
 	if err := store.Put(event); err != nil {
 		t.Error(err)
@@ -48,7 +48,7 @@ func TestPutEncountersConnectionError(t *testing.T) {
 	defer conn.Close()
 
 	store := RedisEventStore{conn: conn, idgen: &PassingIdGenerator{}}
-	event := domain.Event{Name: "test", Timestamp: "2015-02-11T15:01:00+00:00"}
+	event := domain.Event{Name: "test", Timestamp: 1423666860}
 
 	// simulate redis connection loss
 	stopRedis(server)
@@ -66,7 +66,7 @@ func TestPutEncountersIdGeneratorError(t *testing.T) {
 	defer conn.Close()
 
 	store := RedisEventStore{conn: conn, idgen: &FailingIdGenerator{}}
-	event := domain.Event{Name: "test", Timestamp: "2015-02-11T15:01:00+00:00"}
+	event := domain.Event{Name: "test", Timestamp: 1423666860}
 
 	if err := store.Put(event); err == nil {
 		t.Fail()

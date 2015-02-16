@@ -32,11 +32,12 @@ type EventInteractor struct {
 
 func (interactor *EventInteractor) Add(name string, timestamp string) error {
 
-	if _, err := ParseTimestamp(timestamp); err != nil {
+	parsedTimestamp, err := ParseTimestamp(timestamp)
+	if err != nil {
 		return err
 	}
 
-	event := domain.Event{Name: name, Timestamp: timestamp}
+	event := domain.Event{Name: name, Timestamp: parsedTimestamp.Unix()}
 	if err := interactor.Store.Put(event); err != nil {
 		return err
 	}
