@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/declantraynor/go-events-service/interfaces"
 	"github.com/declantraynor/go-events-service/interfaces/datastore"
+	"github.com/declantraynor/go-events-service/interfaces/web"
 	"github.com/declantraynor/go-events-service/usecases"
 )
 
@@ -20,10 +20,8 @@ func main() {
 	}
 
 	eventInteractor := usecases.EventInteractor{Store: &eventStore}
-	webservice := interfaces.WebService{EventInteractor: &eventInteractor}
+	webservice := web.WebService{EventInteractor: &eventInteractor}
 
-	http.HandleFunc("/events", func(res http.ResponseWriter, req *http.Request) {
-		webservice.Create(res, req)
-	})
+	http.HandleFunc("/events", webservice.Create)
 	http.ListenAndServe(":5000", nil)
 }

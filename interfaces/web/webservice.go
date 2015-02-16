@@ -1,4 +1,4 @@
-package interfaces
+package web
 
 import (
 	"encoding/json"
