@@ -7,7 +7,7 @@ import (
 )
 
 type EventInteractor interface {
-	Add(name, timestamp string) error
+	AddEvent(name, timestamp string) error
 }
 
 type EventResource struct {
@@ -40,7 +40,7 @@ func (handler *WebService) Create(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	if err := handler.EventInteractor.Add(event.Name, event.Timestamp); err != nil {
+	if err := handler.EventInteractor.AddEvent(event.Name, event.Timestamp); err != nil {
 		handler.RenderJSON(res, ErrorResource{Error: err.Error()}, http.StatusBadRequest)
 		return
 	}

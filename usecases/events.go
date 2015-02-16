@@ -10,7 +10,7 @@ type EventInteractor struct {
 	Store domain.EventStore
 }
 
-func (interactor *EventInteractor) Add(name string, timestamp string) error {
+func (interactor *EventInteractor) AddEvent(name string, timestamp string) error {
 
 	parsedTimestamp, err := ParseTimestamp(timestamp)
 	if err != nil {
