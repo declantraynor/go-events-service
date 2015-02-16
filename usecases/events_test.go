@@ -1,23 +1,8 @@
 package usecases
 
 import (
-	"errors"
 	"testing"
-
-	"github.com/declantraynor/go-events-service/domain"
 )
-
-type PassingEventStore struct{}
-
-func (stub *PassingEventStore) Put(event domain.Event) error {
-	return nil
-}
-
-type FailingEventStore struct{}
-
-func (stub *FailingEventStore) Put(event domain.Event) error {
-	return errors.New("error from EventStore->Put")
-}
 
 func TestAddSucceeds(t *testing.T) {
 	interactor := EventInteractor{Store: new(PassingEventStore)}

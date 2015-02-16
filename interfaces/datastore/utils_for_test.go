@@ -24,3 +24,12 @@ func stopRedis(server *tempredis.Server) {
 		log.Fatal("Problem killing tempredis server during test")
 	}
 }
+
+func stringInSlice(value string, slice []string) bool {
+	for _, item := range slice {
+		if item == value {
+			return true
+		}
+	}
+	return false
+}
