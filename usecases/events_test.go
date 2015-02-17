@@ -57,7 +57,7 @@ func TestCountEventsInTimeRange(t *testing.T) {
 		t.Error("EventInteractor.CountEventsInTimeRange returned unexpected error")
 	}
 
-	// expect values returned by StubEventStore
+	// expect all non-zero count values returned by StubEventStore
 	expected := map[string]int{
 		"foo": 18,
 		"bar": 6,

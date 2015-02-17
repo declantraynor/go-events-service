@@ -12,13 +12,15 @@ type StubEventStore struct{}
 func (stub *StubEventStore) CountInTimeRange(name string, start, end int64) (int, error) {
 	if name == "foo" {
 		return 18, nil
-	} else {
+	} else if name == "bar" {
 		return 6, nil
+	} else {
+		return 0, nil
 	}
 }
 
 func (stub *StubEventStore) Names() ([]string, error) {
-	return []string{"foo", "bar"}, nil
+	return []string{"foo", "bar", "test"}, nil
 }
 
 func (stub *StubEventStore) Put(event domain.Event) error {

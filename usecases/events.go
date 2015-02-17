@@ -48,10 +48,15 @@ func (interactor *EventInteractor) CountEventsInTimeRange(from, to string) (map[
 	counts := map[string]int{}
 	for _, name := range eventNames {
 		count, err := interactor.Store.CountInTimeRange(name, parsedFrom.Unix(), parsedTo.Unix())
+
 		if err != nil {
 			return map[string]int{}, err
 		}
-		counts[name] = count
+
+		// returned counts will only include events which occur in the time range
+		if count > 0 {
+			counts[name] = count
+		}
 	}
 
 	return counts, nil
