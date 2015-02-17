@@ -37,7 +37,7 @@ func (interactor *EventInteractor) CountEventsInTimeRange(from, to string) (map[
 	}
 
 	if !parsedFrom.Before(parsedTo) {
-		return map[string]int{}, InvalidTimeRangeError{from: from, to: to}
+		return map[string]int{}, InvalidTimeRangeError{From: from, To: to}
 	}
 
 	eventNames, err := interactor.Store.Names()

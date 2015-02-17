@@ -17,7 +17,7 @@ func TestAddEventNonISOTimestamp(t *testing.T) {
 	interactor := EventInteractor{Store: new(StubEventStore)}
 	err := interactor.AddEvent("test-event", "2015/02/01 15:01")
 
-	if err, ok := err.(InvalidTimestampError); !ok || err.notISO8601 == false {
+	if err, ok := err.(InvalidTimestampError); !ok || err.NotISO8601 == false {
 		t.Errorf("expected InvalidTimestampError, got %T", err)
 	}
 
@@ -31,7 +31,7 @@ func TestAddEventNonUTCTimestamp(t *testing.T) {
 	interactor := EventInteractor{Store: new(StubEventStore)}
 	err := interactor.AddEvent("test-event", "2015-02-11T15:01:00-05:00")
 
-	if err, ok := err.(InvalidTimestampError); !ok || err.notUTC == false {
+	if err, ok := err.(InvalidTimestampError); !ok || err.NotUTC == false {
 		t.Errorf("expected InvalidTimestampError, got %T", err)
 	}
 
@@ -57,6 +57,7 @@ func TestCountEventsInTimeRange(t *testing.T) {
 		t.Error("EventInteractor.CountEventsInTimeRange returned unexpected error")
 	}
 
+	// expect values returned by StubEventStore
 	expected := map[string]int{
 		"foo": 18,
 		"bar": 6,

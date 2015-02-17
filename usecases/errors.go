@@ -5,26 +5,26 @@ import (
 )
 
 type InvalidTimestampError struct {
-	timestamp  string
-	notISO8601 bool
-	notUTC     bool
+	Timestamp  string
+	NotISO8601 bool
+	NotUTC     bool
 }
 
 func (err InvalidTimestampError) Error() string {
 	var format string
-	if err.notISO8601 {
+	if err.NotISO8601 {
 		format = "timestamp:%q does not conform to ISO8601"
-	} else if err.notUTC {
+	} else if err.NotUTC {
 		format = "timestamp:%q is not UTC"
 	}
-	return fmt.Sprintf(format, err.timestamp)
+	return fmt.Sprintf(format, err.Timestamp)
 }
 
 type InvalidTimeRangeError struct {
-	from string
-	to   string
+	From string
+	To   string
 }
 
 func (err InvalidTimeRangeError) Error() string {
-	return fmt.Sprintf("from:%q is later than to:%q", err.from, err.to)
+	return fmt.Sprintf("from:%q is later than to:%q", err.From, err.To)
 }

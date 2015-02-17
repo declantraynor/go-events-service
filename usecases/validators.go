@@ -11,11 +11,11 @@ func ParseTimestamp(timestamp string) (time.Time, error) {
 
 	t, err := time.Parse(time.RFC3339, timestamp)
 	if err != nil {
-		return time.Time{}, InvalidTimestampError{timestamp: timestamp, notISO8601: true}
+		return time.Time{}, InvalidTimestampError{Timestamp: timestamp, NotISO8601: true}
 	}
 
 	if _, utcOffset := t.Zone(); utcOffset != 0 {
-		return time.Time{}, InvalidTimestampError{timestamp: timestamp, notUTC: true}
+		return time.Time{}, InvalidTimestampError{Timestamp: timestamp, NotUTC: true}
 	}
 
 	return t, nil

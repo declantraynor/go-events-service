@@ -23,5 +23,6 @@ func main() {
 	webservice := web.WebService{EventInteractor: &eventInteractor}
 
 	http.HandleFunc("/events", webservice.Create)
+	http.HandleFunc("/events/count", webservice.Count)
 	http.ListenAndServe(":5000", nil)
 }
