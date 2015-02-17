@@ -1,7 +1,6 @@
 package usecases
 
 import (
-	"errors"
 	"time"
 )
 
@@ -12,11 +11,11 @@ func ParseTimestamp(timestamp string) (time.Time, error) {
 
 	t, err := time.Parse(time.RFC3339, timestamp)
 	if err != nil {
-		return time.Time{}, errors.New("timestamps must conform to ISO8601")
+		return time.Time{}, InvalidTimestampError{timestamp: timestamp, notISO8601: true}
 	}
 
 	if _, utcOffset := t.Zone(); utcOffset != 0 {
-		return time.Time{}, errors.New("timestamps must be UTC")
+		return time.Time{}, InvalidTimestampError{timestamp: timestamp, notUTC: true}
 	}
 
 	return t, nil

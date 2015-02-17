@@ -15,8 +15,16 @@ func (interactor *PassingEventInteractor) AddEvent(name, timestamp string) error
 	return nil
 }
 
+func (interactor *PassingEventInteractor) CountEventsInTimeRange(from, to string) (map[string]int, error) {
+	return map[string]int{}, nil
+}
+
 func (interactor *FailingEventInteractor) AddEvent(name, timestamp string) error {
 	return errors.New("error from EventInteractor->AddEvent")
+}
+
+func (interactor *FailingEventInteractor) CountEventsInTimeRange(from, to string) (map[string]int, error) {
+	return map[string]int{}, errors.New("error from EventInteractor->CountEventsInTimeRange")
 }
 
 func TestCreate(t *testing.T) {

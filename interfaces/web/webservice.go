@@ -8,6 +8,7 @@ import (
 
 type EventInteractor interface {
 	AddEvent(name, timestamp string) error
+	CountEventsInTimeRange(from, to string) (map[string]int, error)
 }
 
 type EventResource struct {
@@ -45,7 +46,7 @@ func (handler *WebService) Create(res http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	handler.RenderJSON(res, "", http.StatusCreated)
+	handler.RenderJSON(res, map[string]string{}, http.StatusCreated)
 }
 
 func (handler *WebService) RenderJSON(res http.ResponseWriter, resource interface{}, status int) {
