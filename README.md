@@ -33,7 +33,7 @@ The service has been containerised using [Docker](https://docker.com). If you'd 
 play around, you need to [install docker](https://docs.docker.com/installation/#installation) 
 first (it's worth it!). 
 
-## Running
+### Running
 
 A makefile is provided to help with common tasks. To spin up a working instance
 of the service, simply type `make run` at the repository root. Once the service 
@@ -59,7 +59,7 @@ $ boot2docker ip
 192.168.59.103
 ``` 
 
-## Testing
+### Testing
 
 Similarly, a make target is provided to run the application's test suite. `make test`
 spins up a Docker container with all the system-level and Go dependencies required to
