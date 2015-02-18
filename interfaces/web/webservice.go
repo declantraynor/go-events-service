@@ -121,7 +121,7 @@ func (service *WebService) Count(res http.ResponseWriter, req *http.Request) {
 }
 
 func (service *WebService) RenderJSON(res http.ResponseWriter, resource interface{}, status int) {
-	responseBody, _ := json.Marshal(resource)
+	responseBody, _ := json.MarshalIndent(resource, "", "    ")
 	res.Header().Set("Content-Type", "application/json; charset=utf-8")
 	res.WriteHeader(status)
 	res.Write(responseBody)

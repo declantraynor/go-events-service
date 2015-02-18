@@ -52,11 +52,6 @@ func TestCreateRejectsInvalidJSON(t *testing.T) {
 	if response.Code != http.StatusBadRequest {
 		t.Errorf("expected response code %d, got %d", expectedResponseCode, response.Code)
 	}
-
-	expectedResponseBody := `{"error":"Request JSON is invalid"}`
-	if response.Body.String() != expectedResponseBody {
-		t.Errorf("expected response body %q, got %q", expectedResponseBody, response.Body.String())
-	}
 }
 
 func TestCreateEventInteractorError(t *testing.T) {
