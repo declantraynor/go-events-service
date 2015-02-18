@@ -1,7 +1,3 @@
-![docker](https://docker.com)
-![dockerinstall](https://docs.docker.com/installation/#installation)
-
-
 go-events-service
 =================
 
@@ -33,8 +29,9 @@ GET /events/count?from=2015-02-11T15:01:00+00:00&to=2015-02-11T15:01:59+00:00
 
 ### Docker
 
-The service has been containerised using [Docker][docker]. If you'd like to
-play around, you need to [install docker][dockerinstall] first (it's worth it!). 
+The service has been containerised using [Docker](https://docker.com). If you'd like to
+play around, you need to [install docker](https://docs.docker.com/installation/#installation) 
+first (it's worth it!). 
 
 ## Running
 
@@ -50,12 +47,12 @@ CONTAINER ID        IMAGE                             STATUS              PORTS 
 ```
 
 As you can see, the service comprises two Docker containers by default, one for
-the Go web application and one for the backing redis datastore. The app container
-exposes its functionality on port 5000 and this is bound to a high port on the
-host machine (49161 in this example). In this example, to store an event via the 
-service, we would make a POST request to `http://localhost:49161/events`. If you
-are running on MacOSX using boot2docker, you will access the service via the 
-boot2docker host IP rather than localhost. This can be obtained as follows:
+the Go web application and one for the backing [redis](http://redis.io) datastore. 
+The app container exposes its functionality on port 5000 and this is bound to a 
+high port on the host machine (49161 in this example). In this example, to store 
+an event via the service, we would make a POST request to [http://localhost:49161/events](http://localhost:49161/events). 
+If you are running on MacOSX using [boot2docker](https://docs.docker.com/installation/mac/), you will access the service 
+via the boot2docker host IP rather than localhost. This can be obtained as follows:
 
 ```
 $ boot2docker ip
