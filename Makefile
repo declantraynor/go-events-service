@@ -16,7 +16,7 @@ build:
 	docker build -t $(APP_IMAGE) -f Dockerfile.build .
 
 run: build redis
-	docker run -P --link $(REDIS_CONTAINER):redis -d --name $(APP_CONTAINER) $(APP_IMAGE)
+	docker run -itP --rm --link $(REDIS_CONTAINER):redis --name $(APP_CONTAINER) $(APP_IMAGE)
 
 test:
 	docker build -t $(TEST_IMAGE) -f Dockerfile.test .
