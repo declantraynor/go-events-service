@@ -21,7 +21,7 @@ func TestAddEventNonISOTimestamp(t *testing.T) {
 		t.Errorf("expected InvalidTimestampError, got %T", err)
 	}
 
-	expectedErrorFormat := `timestamp:"2015/02/01 15:01" does not conform to ISO8601`
+	expectedErrorFormat := `2015/02/01 15:01 does not conform to ISO8601`
 	if err.Error() != expectedErrorFormat {
 		t.Error("InvalidTimestampError format is wrong")
 	}
@@ -35,7 +35,7 @@ func TestAddEventNonUTCTimestamp(t *testing.T) {
 		t.Errorf("expected InvalidTimestampError, got %T", err)
 	}
 
-	expectedErrorFormat := `timestamp:"2015-02-11T15:01:00-05:00" is not UTC`
+	expectedErrorFormat := `2015-02-11T15:01:00-05:00 is not UTC`
 	if err.Error() != expectedErrorFormat {
 		t.Error("InvalidTimestampError format is wrong")
 	}
@@ -93,7 +93,7 @@ func TestCountEventsInTimeRangeInvalidRange(t *testing.T) {
 		t.Errorf("expected InvalidTimeRangeError, got %T", err)
 	}
 
-	expectedErrorFormat := `from:"2015-01-01T13:29:00+00:00" is later than to:"2015-01-01T13:20:00+00:00"`
+	expectedErrorFormat := `2015-01-01T13:29:00+00:00 is later than 2015-01-01T13:20:00+00:00`
 	if err.Error() != expectedErrorFormat {
 		t.Error("InvalidTimeRangeError format is wrong")
 	}

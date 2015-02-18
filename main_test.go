@@ -1,11 +1,14 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"reflect"
 	"strings"
 	"testing"
 
@@ -13,27 +16,6 @@ import (
 
 	"github.com/declantraynor/go-events-service/interfaces/web"
 )
-
-func startRedis(port string) *tempredis.Server {
-	server, err := tempredis.Start(
-		tempredis.Config{
-			"port": port,
-		},
-	)
-
-	if err != nil {
-		log.Fatal("Unable to start tempredis for test")
-	}
-
-	return server
-}
-
-func stopRedis(server *tempredis.Server) {
-	err := server.Kill()
-	if err != nil {
-		log.Fatal("Problem killing tempredis server during test")
-	}
-}
 
 type TestServer struct {
 	server *httptest.Server
@@ -56,7 +38,7 @@ func TestUnableToConnectToRedis(t *testing.T) {
 	}
 }
 
-func TestCreateEndToEnd(t *testing.T) {
+func TestCreateEventEndToEnd(t *testing.T) {
 	redis := startRedis("12313")
 	defer stopRedis(redis)
 
@@ -67,13 +49,29 @@ func TestCreateEndToEnd(t *testing.T) {
 	run(testserver.serveCreate)
 
 	cases := []struct {
-		name           string
-		timestamp      string
-		expectedStatus int
+		name            string
+		timestamp       string
+		expectedStatus  int
+		expectedContent string
 	}{
-		{"test", "2015-02-18T13:26:00+00:00", http.StatusCreated},
-		{"test", "2015/02/18", http.StatusBadRequest},
-		{"test", "2015-02-18T13:26:00-08:00", http.StatusBadRequest},
+		{
+			"test",
+			"2015-02-18T13:26:00+00:00",
+			http.StatusCreated,
+			`{}`,
+		},
+		{
+			"test",
+			"2015/02/18",
+			http.StatusBadRequest,
+			`{"error": "2015/02/18 does not conform to ISO8601"}`,
+		},
+		{
+			"test",
+			"2015-02-18T13:26:00-08:00",
+			http.StatusBadRequest,
+			`{"error": "2015-02-18T13:26:00-08:00 is not UTC"}`,
+		},
 	}
 
 	for _, c := range cases {
@@ -85,8 +83,53 @@ func TestCreateEndToEnd(t *testing.T) {
 			t.Errorf("unexpected error")
 		}
 
-		if res.StatusCode != c.expectedStatus {
-			t.Errorf("expected status code %d, got %d", c.expectedStatus, res.StatusCode)
-		}
+		assertJSONResponse(t, res, c.expectedStatus, c.expectedContent)
+	}
+}
+
+func assertJSONResponse(t *testing.T, res *http.Response, status int, content string) {
+	if res.Header.Get("Content-Type") != "application/json; charset=utf-8" {
+		t.Error("expected JSON response")
+	}
+
+	if res.StatusCode != status {
+		t.Errorf("expected status code %d, got %d", status, res.StatusCode)
+	}
+
+	contentExpected := make(map[string]interface{})
+	json.Unmarshal([]byte(content), &contentExpected)
+
+	defer res.Body.Close()
+	responseBytes, _ := ioutil.ReadAll(res.Body)
+	contentReceived := make(map[string]interface{})
+	if err := json.Unmarshal(responseBytes, &contentReceived); err != nil {
+		t.Error("response content is not valid JSON")
+	}
+
+	if !reflect.DeepEqual(contentExpected, contentReceived) {
+		t.Errorf("expected content %q, got %q\n", content, string(responseBytes))
+	}
+}
+
+func populateRedis(addr, port string) {}
+
+func startRedis(port string) *tempredis.Server {
+	server, err := tempredis.Start(
+		tempredis.Config{
+			"port": port,
+		},
+	)
+
+	if err != nil {
+		log.Fatal("Unable to start tempredis for test")
+	}
+
+	return server
+}
+
+func stopRedis(server *tempredis.Server) {
+	err := server.Kill()
+	if err != nil {
+		log.Fatal("Problem killing tempredis server during test")
 	}
 }

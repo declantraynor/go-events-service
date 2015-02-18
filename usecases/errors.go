@@ -13,9 +13,9 @@ type InvalidTimestampError struct {
 func (err InvalidTimestampError) Error() string {
 	var format string
 	if err.NotISO8601 {
-		format = "timestamp:%q does not conform to ISO8601"
+		format = "%s does not conform to ISO8601"
 	} else if err.NotUTC {
-		format = "timestamp:%q is not UTC"
+		format = "%s is not UTC"
 	}
 	return fmt.Sprintf(format, err.Timestamp)
 }
@@ -26,5 +26,5 @@ type InvalidTimeRangeError struct {
 }
 
 func (err InvalidTimeRangeError) Error() string {
-	return fmt.Sprintf("from:%q is later than to:%q", err.From, err.To)
+	return fmt.Sprintf("%s is later than %s", err.From, err.To)
 }
