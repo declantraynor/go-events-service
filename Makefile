@@ -3,7 +3,7 @@ TEST_IMAGE = go-events-service-test
 
 APP_CONTAINER = go-events-service-app
 REDIS_CONTAINER = go-events-service-redis
-TEST_CONTAINER = go-events-service-test-container
+TEST_CONTAINER = go-events-service-tests
 
 RUN_REDIS = docker run --name $(REDIS_CONTAINER) -d redis
 
@@ -20,4 +20,4 @@ run: build redis
 
 test:
 	docker build -t $(TEST_IMAGE) -f Dockerfile.test .
-	docker run -it --rm --name $(TEST_CONTAINER) $(TEST_IMAGE) go test -cover ./...
+	docker run -it --name $(TEST_CONTAINER) --rm $(TEST_IMAGE)

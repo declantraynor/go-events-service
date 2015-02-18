@@ -1,8 +1,11 @@
-FROM golang:onbuild
+FROM golang
 
 RUN apt-get update && apt-get install -y redis-server
 
 RUN go get golang.org/x/tools/cmd/cover
 RUN go get github.com/tools/godep
 
-RUN godep restore
+ADD . /go/src/github.com/declantraynor/go-events-service
+
+WORKDIR /go/src/github.com/declantraynor/go-events-service
+CMD godep go test -cover ./...
