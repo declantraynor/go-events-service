@@ -1,5 +1,4 @@
-// Package domain defines the primitive entities present in
-// the events service.
+// Package domain defines the primitive entities present in the events service.
 package domain
 
 type EventStore interface {

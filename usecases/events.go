@@ -1,5 +1,4 @@
-// Package usecases implements application-specific business logic
-// for the events service.
+// Package usecases implements application-specific business logic for the events service.
 package usecases
 
 import (
