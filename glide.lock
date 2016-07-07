@@ -1,0 +1,11 @@
+hash: 2fb1c683af163e870365298ca588c4c02f5dee3df776c6ea27b6c09742171599
+updated: 2016-07-07T13:58:54.696279095+01:00
+imports:
+- name: github.com/garyburd/redigo
+  version: 785e0ca9319196b94fd61abd4c9eab5c11777377
+  subpackages:
+  - internal
+  - redis
+- name: github.com/stvp/tempredis
+  version: 7bdafd4671b49b4eb3bbfb057ae801ac8a3b97d5
+testImports: []

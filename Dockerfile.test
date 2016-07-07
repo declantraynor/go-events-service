@@ -2,10 +2,11 @@ FROM golang
 
 RUN apt-get update && apt-get install -y redis-server
 
-RUN go get golang.org/x/tools/cmd/cover
-RUN go get github.com/tools/godep
+RUN curl -L -O -s https://github.com/Masterminds/glide/releases/download/v0.11.0/glide-v0.11.0-linux-amd64.tar.gz && \
+    tar xf glide-v0.11.0-linux-amd64.tar.gz && mv linux-amd64/glide ${GOPATH}/bin/glide && \
+    rm -rf glide-v0.11.0-linux-amd64.tar.gz linux-amd64
 
-ADD . /go/src/github.com/declantraynor/go-events-service
+ADD . ${GOPATH}/src/github.com/declantraynor/go-events-service
 
-WORKDIR /go/src/github.com/declantraynor/go-events-service
-CMD godep go test -cover ./...
+WORKDIR ${GOPATH}/src/github.com/declantraynor/go-events-service
+CMD go test $(glide novendor) -cover ./...

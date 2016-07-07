@@ -1,0 +1,9 @@
+package: github.com/declantraynor/go-events-service
+import:
+- package: github.com/garyburd/redigo
+  version: 785e0ca9319196b94fd61abd4c9eab5c11777377
+  subpackages:
+  - internal
+  - redis
+- package: github.com/stvp/tempredis
+  version: 7bdafd4671b49b4eb3bbfb057ae801ac8a3b97d5
